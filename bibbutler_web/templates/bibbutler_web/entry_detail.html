@@ -1,0 +1,31 @@
+{% extends "bibbutler_web/base.html" %}
+{% load my_helpers %}
+
+{% block title %}Entry Detail{% endblock %}
+{% block head %}{% get_verbose_name entry %} entry: {{ entry.title|truncatechars:60 }}{% endblock %}
+
+{% block content %}
+
+<table class="table table-striped"><tbody>
+  {% get_fields_without_id_and_relations entry as attributes %}
+  {% for attr, value in entry.get_attributes_without_id_and_relations %}
+    <tr>
+      <td class="col-md-3">
+        {{ attr }}
+      </td>
+      <td class="col-md-9">
+        {{ value }}
+      </td>
+    </tr>
+  {% endfor %}
+</tbody></table>
+
+<div class="center-block">
+  <a href="{% url 'bib_detail' entry.bibliography.id %}" class="btn btn-info">Back to bib: {{ entry.bibliography.document_name|truncatechars:15 }}</a>
+  <a href="{% url 'entry_list' entry.bibliography.id %}" class="btn btn-info">Back to all entries</a>
+  <a href="#" class="btn btn-danger">Delete</a>
+  <a href="#" class="btn btn-primary">Edit the Entry</a>
+</div>
+
+
+{% endblock content %}

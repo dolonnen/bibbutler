@@ -39,6 +39,15 @@ class Entry(PolymorphicModel):
             raise ValidationError(_('one of the both fields date and year have to be set.'), code='requirements not set')
         super().clean()
 
+    def get_fields(self):
+        return self._meta.get_fields()
+
+    def get_attributes_without_id_and_relations(self):
+        blacklist = ('id', 'polymorphic_ctype_id', 'bibliography_id', 'entry_ptr_id')
+        for field in self.get_fields():
+            if field.attname not in blacklist:
+                yield field.verbose_name, getattr(self, field.name)
+
     @classmethod
     def get_subentrytypes(cls):
         for subentrytyp in cls.__subclasses__():
@@ -70,7 +79,7 @@ class EntryBook(Entry):
     titleaddon = models.URLField(blank=True, null=True, max_length=60)
 
     def __str__(self):
-        return 'book entry: ' + self.title + ', ' + self.author
+        return self.title + ', ' + self.author
 
     class Meta:
         verbose_name = _('Book')
@@ -87,7 +96,7 @@ class EntryOnline(Entry, AuthorOrEditorRequired):
     month = models.PositiveSmallIntegerField(blank=True, null=True, choices=MONTHS.items())
 
     def __str__(self):
-        return 'online entry: ' + self.title + ', ' + self.author if self.author else self.editor
+        return self.title + ', ' + self.author if self.author else self.editor
 
     class Meta:
         verbose_name = _('Online')

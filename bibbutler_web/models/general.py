@@ -16,6 +16,7 @@ class Bibliography(models.Model):
 
     document_name = models.CharField(max_length=50, db_index=True, help_text="The name of the document in which this bibliography is needed")
     document_url = models.URLField(blank=True, null=True, default=None, help_text="The url of the document in which this bibliography is needed")
+    addition = models.CharField(blank=True, max_length=10, help_text="additional infos like version or something")
     date = models.DateField(blank=True, null=True, default=timezone.now, help_text="The date of the bibliography")
     # user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, default=None)
 

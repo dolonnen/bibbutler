@@ -1,0 +1,44 @@
+{% extends "bibbutler_web/base.html" %}
+{% load my_helpers %}
+
+{% block title %}Entry List{% endblock %}
+{% block head %}Entries for {{ entry_list.0.bibliography.document_name }}{% endblock %}
+
+{% block content %}
+
+{% if not entry_list %}
+    <div class="alert alert-info" role="alert">There are now Entries in these Bibliography.</div>
+
+{% else %}
+
+{% for entry in entry_list %}
+
+<div class="col-md-4">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <div class="row">
+        <div class="col-md1 col-md-10" style="display: block;">
+          <a href="{% url 'entry_detail' entry.id %}"> <h3 class="panel-title">
+            {{ entry.title|truncatechars:35 }}
+          </h3></a>
+        </div>
+        <div class="col-md1 col-md-2 text-right" style="display: block;">
+          <a href="#" class=""><span class="glyphicon glyphicon-remove text-danger"></span></a>
+        </div>
+      </div>
+    </div>
+    <div class="panel-body">
+      <small>{% get_verbose_name entry %} entry</small> <br>
+      {% firstof entry.author entry.editor %}{% firstof entry.publisher entry.organization as publisher %}{% if publisher %}, {{ publisher }} {% endif %} <br>
+      {% firstof entry.date entry.year   %}
+    </div>
+  </div>
+</div>
+
+{% endfor %}
+
+
+
+{% endif %}
+
+{% endblock content %}

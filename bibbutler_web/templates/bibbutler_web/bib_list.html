@@ -1,0 +1,36 @@
+{% extends "bibbutler_web/base.html" %}
+{% block title %}Bibliography List{% endblock %}
+{% block head %}Bibliography List{% endblock %}
+
+{% block content %}
+
+{% if bibliography_list %}
+    <p>You have Bibliographies for:</p>
+{% else %}
+    <div class="alert alert-info" role="alert">I've searched for Bibliographies, but... There are no one!</div>
+{% endif %}
+
+    <table class="table table-striped">
+    <tbody>
+
+{% for bib in bibliography_list %}
+    <tr>
+        <td>
+            {{ bib.document_name }} <span class="label label-default">{{ bib.addition }}</span>
+        </td>
+        <td>
+            <div class="btn-group" role="group">
+            <a href="{% url 'bib_detail' bib.id %}" class="btn btn-info">Detail</a>
+            <a href="{% url 'entry_list' bib.id %}" class="btn btn-primary">List and edit the {{ bib.entry_set.count }} Entries</a>
+            </div>
+        </td>
+        <td>
+            <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Delete</a>
+        </td>
+    </tr>
+{% endfor %}
+
+</tbody>
+</table>
+
+{% endblock content %}
