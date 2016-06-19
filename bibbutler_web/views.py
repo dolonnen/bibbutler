@@ -1,6 +1,6 @@
 from django.views.generic import View, TemplateView, ListView, DetailView, UpdateView, CreateView
 from django.shortcuts import get_object_or_404, redirect
-from django.http import HttpResponse
+from django.template.loader import render_to_string
 from bibbutler_web.models.general import Bibliography
 from bibbutler_web.models.entry import *
 from bibbutler_web.tools import duplicate_bib
@@ -18,6 +18,12 @@ class BibListView(ListView):
 class BibDetailView(DetailView):
     template_name = 'bibbutler_web/bib_detail.html'
     model = Bibliography
+
+    def get_context_data(self, **kwargs):
+        context = super(BibDetailView, self).get_context_data(**kwargs)
+        entry_list = Entry.objects.filter(bibliography_id=self.kwargs['pk'])
+        context['bibtex_generate'] = render_to_string('bibbutler_web/bibliography.html', {'entry_list': entry_list})
+        return context
 
 
 class EntryListView(ListView):
@@ -87,3 +93,17 @@ class BibDuplicateView(View):
         old_bib = get_object_or_404(Bibliography, pk=kwargs['pk'])
         duplicate_bib(old_bib)
         return redirect('bib_list')
+
+
+class BibGenerateView(ListView):
+    template_name = 'bibbutler_web/bibliography.html'
+    model = Entry
+
+    def get_queryset(self):
+        return Entry.objects.filter(bibliography_id=self.kwargs['pk'])
+
+    def get_context_data(self, **kwargs):
+        context = super(BibGenerateView, self).get_context_data(**kwargs)
+        bib = Bibliography.objects.get(id=self.kwargs['pk'])
+        context['bib'] = bib
+        return context

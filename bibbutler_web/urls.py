@@ -9,6 +9,7 @@ urlpatterns = [
     url(r'^bib/(?P<pk>[0-9]+)/$', views.BibDetailView.as_view(), name='bib_detail'),
     url(r'^bib/(?P<pk>[0-9]+)/delete/$', views.BibDeleteView.as_view(), name='bib_delete'),
     url(r'^bib/(?P<pk>[0-9]+)/duplicate/$', views.BibDuplicateView.as_view(), name='bib_duplicate'),
+    url(r'^bib/(?P<pk>[0-9]+)/generate/$', views.BibGenerateView.as_view(), name='bib_generate'),
 
     url(r'^bib/(?P<pk>[0-9]+)/entries/$', views.EntryListView.as_view(), name='entry_list'),
     url(r'^bib/(?P<pk>[0-9]+)/entries/new/$', views.EntryCreateView.as_view(), name='new_entry'),

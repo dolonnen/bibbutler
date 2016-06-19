@@ -13,8 +13,18 @@
   </div>
 </div>
 
+<div class="panel panel-default">
+  <div class="panel-heading">
+    Generated biblatex file
+  </div>
+  <div class="panel-body">
+    <textarea readonly cols="110" rows="25">{{ bibtex_generate }}</textarea>
+  </div>
+</div>
+
 <a href="{% url 'bib_list' %}" class="btn btn-default">Back to all bibliographies</a>
 <a href="{% url 'bib_delete' bibliography.id %}" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Delete</a>
 <a href="{% url 'entry_list' bibliography.id %}" class="btn btn-primary">List and edit the {{ bibliography.entry_set.count }} Entries</a>
+{#<a href="{% url 'bib_generate' bibliography.id %}" class="btn btn-success" target="_blank">Generate .bib</a>#}
 
 {% endblock content %}

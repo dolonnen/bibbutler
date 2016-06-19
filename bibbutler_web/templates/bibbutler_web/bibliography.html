@@ -1,0 +1,25 @@
+{% load my_helpers %}
+
+% Encoding: UTF-8
+
+{% for entry in entry_list %}
+
+{% get_class_verbose_name entry %}{% lb %}{{ entry.get_bibtex_key }} ,
+
+}
+
+{% endfor %}
+
+
+--------
+
+@Book{Benedettelli:2014,
+  author =    {Benedettelli, Daniele},
+  title =     {Das LEGO®-MINDSTORMS®-EV3-Labor : Bauen, programmieren und experimentieren mit 5 tollen Robots},
+  year =      {2014},
+  publisher = {dpunkt-Verl.},
+  isbn =      {978-3-86490-152-2; 3-86490-152-9; 978-1-59327-533-4},
+  address =   {Heidelberg},
+  keywords =  {LEGO MindStorms / Roboter / Selbstbau / Anleitung ; LEGO MindStorms / Roboter / Programmierung},
+  size =      {XX, 409 S. : Ill., graph. Darst. ; 245 mm x 185 mm}
+}

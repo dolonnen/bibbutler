@@ -5,6 +5,16 @@ register = template.Library()
 
 
 @register.simple_tag
+def lb():
+    return '{'
+
+
+@register.simple_tag
+def rb():
+    return '}'
+
+
+@register.simple_tag
 def get_class_verbose_name(object):
     return object._meta.verbose_name
 
