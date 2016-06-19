@@ -15,8 +15,6 @@ class EntryTestCase(TestCase):
                      subtitle='toller Subtitel',
                      url='http://test.example.com',
                      urldate=date.today(),
-                     addendum='Ein völlig nutzloses Addendum',
-                     note='Ein noch nutzloseres Note',
                      language='german',
                      pubstate='sbmit',
                      date=date.today(),

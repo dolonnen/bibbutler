@@ -2,7 +2,7 @@
 {% load my_helpers %}
 
 {% block title %}Entry Detail{% endblock %}
-{% block head %}{% get_verbose_name entry %} entry: {{ entry.title|truncatechars:60 }}{% endblock %}
+{% block head %}{% get_class_verbose_name entry %} entry: {{ entry.title|truncatechars:60 }}{% endblock %}
 
 {% block content %}
 
@@ -21,10 +21,10 @@
 </tbody></table>
 
 <div class="center-block">
-  <a href="{% url 'bib_detail' entry.bibliography.id %}" class="btn btn-info">Back to bib: {{ entry.bibliography.document_name|truncatechars:15 }}</a>
-  <a href="{% url 'entry_list' entry.bibliography.id %}" class="btn btn-info">Back to all entries</a>
-  <a href="#" class="btn btn-danger">Delete</a>
-  <a href="#" class="btn btn-primary">Edit the Entry</a>
+  <a href="{% url 'bib_detail' entry.bibliography.id %}" class="btn btn-default">Back to bib: {{ entry.bibliography.document_name|truncatechars:15 }}</a>
+  <a href="{% url 'entry_list' entry.bibliography.id %}" class="btn btn-default">Back to all entries</a>
+  <a href="{% url 'bib_delete' entry.bibliography.id %}" class="btn btn-danger">Delete</a>
+  <a href="{% url 'entry_edit' entry.id %}" class="btn btn-primary">Edit the Entry</a>
 </div>
 
 

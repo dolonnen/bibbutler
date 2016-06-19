@@ -1,0 +1,21 @@
+{% load my_helpers %}
+
+<div class="modal fade" id="entryTypeModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Entry Types</h4>
+      </div>
+      <div class="modal-body">
+        <div class="list-group">
+
+          {% for type, model in entry_types.items %}
+            <a href="{% url 'new_entry' bib_id %}?entrytype={{ type|urlencode }}" class="list-group-item">{% get_class_verbose_name model %}</a>
+          {% endfor %}
+
+        </div>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

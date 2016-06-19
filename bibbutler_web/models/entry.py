@@ -1,21 +1,23 @@
 from django.db import models
+from .bibtex_key import get_bibtex_key
 from polymorphic.models import PolymorphicModel
 from django.utils.translation import ugettext_lazy as _
 from django.utils.dates import MONTHS
 from django.utils import timezone
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator
+from django.core.urlresolvers import reverse
 
 
 class Entry(PolymorphicModel):
     bibliography = models.ForeignKey('Bibliography', on_delete=models.CASCADE)
 
-    title = models.CharField(max_length=60)
-    subtitle = models.CharField(blank=True, max_length=60)
+    title = models.CharField(max_length=300)
+    subtitle = models.CharField(blank=True, max_length=300)
     url = models.URLField(blank=True, null=True)
     urldate = models.DateField('url date', blank=True, null=True)
-    addendum = models.TextField(blank=True, max_length=200)
-    note = models.TextField(blank=True, max_length=200)
+    # addendum = models.TextField(blank=True, max_length=200)
+    # note = models.TextField(blank=True, max_length=200)
     language = models.CharField(blank=True, max_length=15)
     PUBSTATE_CHOICES = (
         ('iprep', 'in preparation'),
@@ -39,6 +41,15 @@ class Entry(PolymorphicModel):
             raise ValidationError(_('one of the both fields date and year have to be set.'), code='requirements not set')
         super().clean()
 
+    def get_absolute_url(self):
+        return reverse('entry_detail', args=[self.id])
+
+    def get_bibtex_key(self):
+        # if self.manual_bibtex_key:
+        #     return self.manual_bibtex_key
+        return get_bibtex_key(self)
+
+
     def get_fields(self):
         return self._meta.get_fields()
 
@@ -57,8 +68,8 @@ class Entry(PolymorphicModel):
 
 class AuthorOrEditorRequired(models.Model):
     # required once of them
-    author = models.CharField(blank=True, max_length=150)
-    editor = models.CharField(blank=True, max_length=150)
+    author = models.CharField(blank=True, max_length=200)
+    editor = models.CharField(blank=True, max_length=200)
     # editortype
 
     def clean(self):
@@ -71,10 +82,10 @@ class AuthorOrEditorRequired(models.Model):
 
 
 class EntryBook(Entry):
-    author = models.CharField(max_length=150)
-    editor = models.CharField(blank=True, max_length=150)
-    publisher = models.CharField(blank=True, max_length=100)
-    location = models.CharField(blank=True, max_length=100)
+    author = models.CharField(max_length=200)
+    editor = models.CharField(blank=True, max_length=200)
+    publisher = models.CharField(blank=True, max_length=200)
+    location = models.CharField(blank=True, max_length=200)
     isbn = models.CharField(blank=True, max_length=17)
     titleaddon = models.URLField(blank=True, null=True, max_length=60)
 

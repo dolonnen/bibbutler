@@ -16,7 +16,7 @@
 {% for bib in bibliography_list %}
     <tr>
         <td>
-            {{ bib.document_name }} <span class="label label-default">{{ bib.addition }}</span>
+            {{ bib.document_name }} <span style="margin-left: 10px" class="label label-default">{{ bib.addition }}</span>
         </td>
         <td>
             <div class="btn-group" role="group">
@@ -25,10 +25,19 @@
             </div>
         </td>
         <td>
-            <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Delete</a>
+          <a href="{% url 'bib_delete' bib.id %}" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Delete</a>
+          <a href="{% url 'bib_duplicate' bib.id %}" class="btn btn-default btn-xs">Duplicate</a>
         </td>
     </tr>
 {% endfor %}
+
+    <tr>
+      <td></td>
+      <td>
+        <a href="{% url 'new_bib' %}" class="btn btn-success">New Bibliography</a>
+      </td>
+      <td></td>
+    </tr>
 
 </tbody>
 </table>

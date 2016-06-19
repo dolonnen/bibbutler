@@ -3,8 +3,18 @@
 {% block head %}Bibliography Detail{% endblock %}
 
 {% block content %}
-{{ bibliography }}
 
-    TODO
+<div class="panel panel-default">
+  <div class="panel-heading">{{ bibliography.document_name|truncatewords:18 }} <span style="margin-left: 25px" class="label label-default">{{ bibliography.addition }}</span></div>
+  <div class="panel-body">
+    <p>{{ bibliography.document_url|urlize }}</p>
+    <p>Date: {{ bibliography.date|date:'j. N o' }}</p>
+
+  </div>
+</div>
+
+<a href="{% url 'bib_list' %}" class="btn btn-default">Back to all bibliographies</a>
+<a href="{% url 'bib_delete' bibliography.id %}" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Delete</a>
+<a href="{% url 'entry_list' bibliography.id %}" class="btn btn-primary">List and edit the {{ bibliography.entry_set.count }} Entries</a>
 
 {% endblock content %}

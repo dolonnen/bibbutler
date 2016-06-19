@@ -2,7 +2,7 @@
 {% load my_helpers %}
 
 {% block title %}Entry List{% endblock %}
-{% block head %}Entries for {{ entry_list.0.bibliography.document_name }}{% endblock %}
+{% block head %}Entries for {{ bib.document_name|truncatewords:10}}{% endblock %}
 
 {% block content %}
 
@@ -23,12 +23,13 @@
           </h3></a>
         </div>
         <div class="col-md1 col-md-2 text-right" style="display: block;">
-          <a href="#" class=""><span class="glyphicon glyphicon-remove text-danger"></span></a>
+          <a href="#deleteEntry{{ entry.id }}Modal" class="" data-toggle="modal"><span class="glyphicon glyphicon-remove text-danger"></span></a>
         </div>
       </div>
     </div>
     <div class="panel-body">
-      <small>{% get_verbose_name entry %} entry</small> <br>
+      <span class="label label-default">{{ entry.get_bibtex_key }}</span>
+      <small>({% get_class_verbose_name entry %} entry)</small> <br>
       {% firstof entry.author entry.editor %}{% firstof entry.publisher entry.organization as publisher %}{% if publisher %}, {{ publisher }} {% endif %} <br>
       {% firstof entry.date entry.year   %}
     </div>
@@ -36,9 +37,35 @@
 </div>
 
 {% endfor %}
-
-
-
 {% endif %}
 
+  <div class="col-md-4">
+  <div class="panel panel-default">
+    <div class="panel-heading"><h3> </h3>
+    </div>
+    <div class="panel-body ">
+      <div class="center-block">
+        <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#entryTypeModal" >New Entry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="row">
+
+ <div class="col-md-12">
+   <a href="{% url 'bib_list' %}" class="btn btn-default">Back to all bibliographies</a>
+   <a href="{% url 'bib_detail' bib.id %}" class="btn btn-default">Details of the Bibliography</a>
+ </div>
+</div>
+
 {% endblock content %}
+
+{% block modal %}
+
+  {% for entry in entry_list %}
+    {% load_modal_delete_entry entry.id %}
+  {% endfor %}
+  {% load_modal_entry_type bib.id %}
+{% endblock modal %}
