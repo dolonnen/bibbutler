@@ -10,23 +10,21 @@ from django.core.urlresolvers import reverse
 
 
 class Entry(PolymorphicModel):
-    bibliography = models.ForeignKey('Bibliography', on_delete=models.CASCADE)
+    bibliography = models.ForeignKey('Bibliography', on_delete=models.CASCADE, editable=True)
 
     title = models.CharField(max_length=300)
     subtitle = models.CharField(blank=True, max_length=300)
-    url = models.URLField(blank=True, null=True)
-    urldate = models.DateField('url date', blank=True, null=True)
     # addendum = models.TextField(blank=True, max_length=200)
     # note = models.TextField(blank=True, max_length=200)
     language = models.CharField(blank=True, max_length=15)
-    PUBSTATE_CHOICES = (
-        ('iprep', 'in preparation'),
-        ('sbmit', 'submitted'),
-        ('focom', 'forthcoming'),
-        ('ipres', 'in press'),
-        ('prpub', 'pre-published'),
-    )
-    pubstate = models.CharField(blank=True, max_length=5, choices=PUBSTATE_CHOICES, default='')
+    # PUBSTATE_CHOICES = (
+    #     ('iprep', 'in preparation'),
+    #     ('sbmit', 'submitted'),
+    #     ('focom', 'forthcoming'),
+    #     ('ipres', 'in press'),
+    #     ('prpub', 'pre-published'),
+    # )
+    # pubstate = models.CharField(blank=True, max_length=5, choices=PUBSTATE_CHOICES, default='')
 
     # required once of them
     date = models.DateField(blank=True, null=True, default=timezone.now)
@@ -85,6 +83,8 @@ class EntryBook(Entry):
     author = models.CharField(max_length=200)
     editor = models.CharField(blank=True, max_length=200)
     publisher = models.CharField(blank=True, max_length=200)
+    url = models.URLField(blank=True, null=True)
+    urldate = models.DateField('url date', blank=True, null=True)
     location = models.CharField(blank=True, max_length=200)
     isbn = models.CharField(blank=True, max_length=17)
     titleaddon = models.URLField(blank=True, null=True, max_length=60)
@@ -101,8 +101,10 @@ class EntryBook(Entry):
 
 
 class EntryOnline(Entry, AuthorOrEditorRequired):
-    titleaddon = models.URLField(blank=True, null=True, max_length=60)
+    titleaddon = models.CharField(blank=True, null=True, max_length=60)
     version = models.CharField(blank=True, max_length=20)
+    url = models.URLField(blank=False, null=True)
+    urldate = models.DateField('url date', blank=True, null=True)
     organization = models.CharField(blank=True, max_length=60)
     month = models.PositiveSmallIntegerField(blank=True, null=True, choices=MONTHS.items())
 
@@ -117,8 +119,8 @@ class EntryOnline(Entry, AuthorOrEditorRequired):
         super().clean()
 
 # make url field required on online entry type
-EntryOnline._meta.get_field('url').blank = False
-EntryOnline._meta.get_field('url').null = False
+# EntryOnline._meta.get_field('url').blank = False
+# EntryOnline._meta.get_field('url').null = False
 
 
 entry_types = {

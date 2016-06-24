@@ -12,7 +12,6 @@ def duplicate_bib(old_bib):
 
     for old_entry in Entry.objects.filter(bibliography=old_bib):
         new_entry = old_entry
-        old_entry.save()
         new_entry.bibliography = new_bib
         new_entry.id = None
         new_entry.pk = None

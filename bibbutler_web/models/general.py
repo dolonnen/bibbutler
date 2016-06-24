@@ -21,7 +21,7 @@ class Bibliography(models.Model):
     # user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, default=None)
 
     def __str__(self):
-        return 'bibliography for ' + self.document_name
+        return 'bibliography for ' + self.document_name + ', ' + self.addition
 
     def get_absolute_url(self):
         return reverse('bib_detail', args=[self.id])

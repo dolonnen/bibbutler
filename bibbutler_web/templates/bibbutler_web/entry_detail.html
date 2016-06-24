@@ -7,7 +7,7 @@
 {% block content %}
 
 <table class="table table-striped"><tbody>
-  {% get_fields_without_id_and_relations entry as attributes %}
+{#  {% get_fields_without_id_and_relations entry as attributes %}#}
   {% for attr, value in entry.get_attributes_without_id_and_relations %}
     <tr>
       <td class="col-md-3">
