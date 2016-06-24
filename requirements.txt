@@ -1,0 +1,12 @@
+backports.shutil-get-terminal-size==1.0.0
+decorator==4.0.9
+Django==1.9.6
+django-polymorphic==0.9.2
+django-widget-tweaks==1.4.1
+ipython==4.2.0
+ipython-genutils==0.1.0
+pexpect==4.1.0
+pickleshare==0.7.2
+ptyprocess==0.5.1
+simplegeneric==0.8.1
+traitlets==4.2.1
