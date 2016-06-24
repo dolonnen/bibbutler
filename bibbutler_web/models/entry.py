@@ -26,7 +26,7 @@ class Entry(PolymorphicModel):
     # )
     # pubstate = models.CharField(blank=True, max_length=5, choices=PUBSTATE_CHOICES, default='')
 
-    # required once of them
+    ## required once of them
     date = models.DateField(blank=True, null=True, default=timezone.now)
     year = models.PositiveSmallIntegerField(blank=True, null=True, default=timezone.now().year, validators=[MaxValueValidator(timezone.now().year, message=_('year is in future'))])
 
@@ -93,8 +93,8 @@ class EntryBook(Entry):
         return self.title + ', ' + self.author
 
     class Meta:
-        verbose_name = _('Book')
-        verbose_name_plural = _('Books')
+        verbose_name = _('book')
+        verbose_name_plural = _('books')
 
     def clean(self):
         super().clean()
@@ -112,18 +112,54 @@ class EntryOnline(Entry, AuthorOrEditorRequired):
         return self.title + ', ' + self.author if self.author else self.editor
 
     class Meta:
-        verbose_name = _('Online')
-        verbose_name_plural = _('Online entrys')
+        verbose_name = _('online')
+        verbose_name_plural = _('online entries')
 
     def clean(self):
         super().clean()
 
-# make url field required on online entry type
-# EntryOnline._meta.get_field('url').blank = False
-# EntryOnline._meta.get_field('url').null = False
+
+class EntryManual(Entry, AuthorOrEditorRequired):
+    organization = models.CharField(blank=True, max_length=60)
+    titleaddon = models.CharField(blank=True, null=True, max_length=60)
+    version = models.CharField(blank=True, max_length=20)
+    url = models.URLField(blank=True, null=True)
+    urldate = models.DateField('url date', blank=True, null=True)
+    isbn = models.CharField(blank=True, max_length=17)
+
+    def __str__(self):
+        return self.title + ', ' + self.organization if self.organization else (self.author if self.author else self.editor)
+
+    class Meta:
+        verbose_name = _('manual')
+        verbose_name_plural = _('manuals')
+
+    def clean(self):
+        super().clean()
+
+
+class EntryMisc(Entry, AuthorOrEditorRequired):
+    howpublished = models.CharField(blank=True, null=True, max_length=60)
+    titleaddon = models.CharField(blank=True, null=True, max_length=60)
+    version = models.CharField(blank=True, max_length=20)
+    url = models.URLField(blank=True, null=True)
+    urldate = models.DateField('url date', blank=True, null=True)
+    organization = models.CharField(blank=True, max_length=60)
+
+    def __str__(self):
+        return self.title + ', ' + self.organization if self.organization else (self.author if self.author else self.editor)
+
+    class Meta:
+        verbose_name = _('misc')
+        verbose_name_plural = _('misc entries')
+
+    def clean(self):
+        super().clean()
 
 
 entry_types = {
     'book': EntryBook,
+    'manual': EntryManual,
+    'misc': EntryMisc,
     'online': EntryOnline
 }

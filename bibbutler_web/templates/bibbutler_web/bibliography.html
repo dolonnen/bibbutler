@@ -2,6 +2,6 @@
 % Encoding: UTF-8
 {% for entry in entry_list %}
 {% get_class_verbose_name entry %}{% lb %}{{ entry.get_bibtex_key }} ,
-{% for attr, value in entry.get_attributes_without_id_and_relations %}{% if value %}  {{ attr }} = {% lb %}{{ value }}{% rb %}
+{% for attr, value in entry.get_attributes_without_id_and_relations %}{% if value %}  {{ attr }} = {% lb %}{{ value }}{% rb %},
 {% endif %}{% endfor %}{% rb %}
 {% endfor %}
