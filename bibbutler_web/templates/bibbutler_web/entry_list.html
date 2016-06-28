@@ -6,11 +6,6 @@
 
 {% block content %}
 
-{% if not entry_list %}
-    <div class="alert alert-info" role="alert">There are now Entries in these Bibliography.</div>
-
-{% else %}
-
 {% for entry in entry_list %}
 
 <div class="col-md-4">
@@ -30,14 +25,17 @@
     <div class="panel-body">
       <span class="label label-default">{{ entry.get_bibtex_key }}</span>
       <small>({% get_class_verbose_name entry %} entry)</small> <br>
-      {% firstof entry.author entry.editor %}{% firstof entry.publisher entry.organization as publisher %}{% if publisher %}, {{ publisher }} {% endif %} <br>
+      {% firstof entry.author entry.editor %}{% firstof entry.publisher entry.organization entry.institution as publisher %}{% if publisher %}, {{ publisher }} {% endif %} <br>
       {% firstof entry.date entry.year   %}
     </div>
   </div>
 </div>
 
+{% empty %}
+
+<div class="alert alert-info" role="alert">There are now Entries in these Bibliography.</div>
+
 {% endfor %}
-{% endif %}
 
   <div class="col-md-4">
   <div class="panel panel-default">

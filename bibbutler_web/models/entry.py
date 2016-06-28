@@ -26,6 +26,7 @@ class Entry(PolymorphicModel):
     # )
     # pubstate = models.CharField(blank=True, max_length=5, choices=PUBSTATE_CHOICES, default='')
 
+    url_date = models.DateField(blank=True, null=True)
     ## required once of them
     date = models.DateField(blank=True, null=True, default=timezone.now)
     year = models.PositiveSmallIntegerField(blank=True, null=True, default=timezone.now().year, validators=[MaxValueValidator(timezone.now().year, message=_('year is in future'))])
@@ -84,7 +85,6 @@ class EntryBook(Entry):
     editor = models.CharField(blank=True, max_length=200)
     publisher = models.CharField(blank=True, max_length=200)
     url = models.URLField(blank=True, null=True)
-    urldate = models.DateField('url date', blank=True, null=True)
     location = models.CharField(blank=True, max_length=200)
     isbn = models.CharField(blank=True, max_length=17)
     titleaddon = models.URLField(blank=True, null=True, max_length=60)
@@ -100,11 +100,26 @@ class EntryBook(Entry):
         super().clean()
 
 
+class EntryReport(Entry):
+    author = models.CharField(max_length=200)
+    institution = models.CharField(max_length=200)
+    url = models.URLField(blank=True, null=True)
+
+    def __str__(self):
+        return self.title + ', ' + self.author
+
+    class Meta:
+        verbose_name = _('report')
+        verbose_name_plural = _('reborts')
+
+    def clean(self):
+        super().clean()
+
+
 class EntryOnline(Entry, AuthorOrEditorRequired):
     titleaddon = models.CharField(blank=True, null=True, max_length=60)
     version = models.CharField(blank=True, max_length=20)
     url = models.URLField(blank=False, null=True)
-    urldate = models.DateField('url date', blank=True, null=True)
     organization = models.CharField(blank=True, max_length=60)
     month = models.PositiveSmallIntegerField(blank=True, null=True, choices=MONTHS.items())
 
@@ -124,7 +139,6 @@ class EntryManual(Entry, AuthorOrEditorRequired):
     titleaddon = models.CharField(blank=True, null=True, max_length=60)
     version = models.CharField(blank=True, max_length=20)
     url = models.URLField(blank=True, null=True)
-    urldate = models.DateField('url date', blank=True, null=True)
     isbn = models.CharField(blank=True, max_length=17)
 
     def __str__(self):
@@ -143,7 +157,6 @@ class EntryMisc(Entry, AuthorOrEditorRequired):
     titleaddon = models.CharField(blank=True, null=True, max_length=60)
     version = models.CharField(blank=True, max_length=20)
     url = models.URLField(blank=True, null=True)
-    urldate = models.DateField('url date', blank=True, null=True)
     organization = models.CharField(blank=True, max_length=60)
 
     def __str__(self):
@@ -159,6 +172,7 @@ class EntryMisc(Entry, AuthorOrEditorRequired):
 
 entry_types = {
     'book': EntryBook,
+    'report': EntryReport,
     'manual': EntryManual,
     'misc': EntryMisc,
     'online': EntryOnline

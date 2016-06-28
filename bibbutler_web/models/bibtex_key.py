@@ -40,13 +40,16 @@ def get_year(entry):
     return year
 
 
+def get_last_name_part(name):
+    last_name = name.split()[-1]
+    return last_name[:4].title()
+
+
 def author_year_key(entry):
-    last_name_list = [name.split()[-1] for name in get_namelist(entry)]
-    names = ','.join(last_name_list)
+    last_name_list = [get_last_name_part(name) for name in get_namelist(entry)]
+    names = ''.join(last_name_list)
     return "{id}:{name}:{year}".format(id=entry.id, name=names, year=get_year(entry))
 
 
 def get_bibtex_key(entry):
     return author_year_key(entry)
-
-

@@ -1,7 +1,7 @@
 {% load my_helpers %}
 % Encoding: UTF-8
 {% for entry in entry_list %}
-{% get_class_verbose_name entry %}{% lb %}{{ entry.get_bibtex_key }} ,
-{% for attr, value in entry.get_attributes_without_id_and_relations %}{% if value %}  {{ attr }} = {% lb %}{{ value }}{% rb %},
+@{% get_class_verbose_name entry %}{% lb %}{{ entry.get_bibtex_key }},
+{% for attr, value in entry.get_attributes_without_id_and_relations %}{% if value %}  {{ attr }} = {% lb %}{% if "date" in attr %}{{ value|date:"Y-m-d" }}{% else%}{{ value }}{% endif %}{% rb %},
 {% endif %}{% endfor %}{% rb %}
 {% endfor %}
