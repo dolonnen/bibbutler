@@ -26,7 +26,7 @@ class Entry(PolymorphicModel):
     # )
     # pubstate = models.CharField(blank=True, max_length=5, choices=PUBSTATE_CHOICES, default='')
 
-    url_date = models.DateField(blank=True, null=True)
+    urldate = models.DateField(blank=True, null=True)
     ## required once of them
     date = models.DateField(blank=True, null=True, default=timezone.now)
     year = models.PositiveSmallIntegerField(blank=True, null=True, default=timezone.now().year, validators=[MaxValueValidator(timezone.now().year, message=_('year is in future'))])

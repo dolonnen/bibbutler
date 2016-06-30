@@ -24,6 +24,11 @@ def get_fields(object):
     return object._meta.get_fields()
 
 
+@register.filter(name='cut')
+def cut(value, arg):
+    return value.replace(arg, '')
+
+
 # @register.simple_tag
 # def get_fields_without_id_and_relations(object):
 #     blacklist = ('id', 'polymorphic_ctype_id', 'bibliography_id', 'entry_ptr_id')
