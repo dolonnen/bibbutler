@@ -51,7 +51,7 @@ def titel_year_key(entry):
     else:
         titelstub = title[:9] + '..' + title[-9:]
 
-    return "{id}:{titel}:{year}".format(id=entry.id, titel=titelstub, year=get_year(entry))
+    return "{id}:{titel}:{year}".format(id=entry.id, titel=titelstub, year=str(get_year(entry))[-2:])
 
 
 def get_bibtex_key(entry):
