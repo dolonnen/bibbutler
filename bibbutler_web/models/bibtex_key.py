@@ -24,7 +24,7 @@ def get_year(entry):
     else:
         year = entry.year
 
-    return str(year)[-2:]
+    return year
 
 
 def get_title(entry):
@@ -40,16 +40,16 @@ def get_last_name_part(name):
 def author_year_key(entry):
     last_name_list = [get_last_name_part(name.strip()) for name in get_namelist(entry)]
     names = ''.join(last_name_list)
-    return "{id}:{name}:{year}".format(id=entry.id, name=names[:12], year=get_year(entry))
+    return "{id}:{name}:{year}".format(id=entry.id, name=names[:12], year=str(get_year(entry))[-2:] )
 
 
 def titel_year_key(entry):
     title = get_title(entry)
 
-    if len(title) <= 18:
+    if len(title) <= 20:
         titelstub = title
     else:
-        titelstub = title[:8] + '...' + title[-8:]
+        titelstub = title[:9] + '..' + title[-9:]
 
     return "{id}:{titel}:{year}".format(id=entry.id, titel=titelstub, year=get_year(entry))
 

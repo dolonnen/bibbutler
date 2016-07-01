@@ -22,8 +22,8 @@
   </div>
 </div>
 
+<a href="{% url 'bib_delete' bibliography.id %}" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span>Delete</a>
 <a href="{% url 'bib_list' %}" class="btn btn-default">Back to all bibliographies</a>
-<a href="{% url 'bib_delete' bibliography.id %}" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Delete</a>
 <a href="{% url 'entry_list' bibliography.id %}" class="btn btn-primary">List and edit the {{ bibliography.entry_set.count }} Entries</a>
 {#<a href="{% url 'bib_generate' bibliography.id %}" class="btn btn-success" target="_blank">Generate .bib</a>#}
 

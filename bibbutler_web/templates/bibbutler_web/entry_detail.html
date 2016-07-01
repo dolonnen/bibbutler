@@ -7,23 +7,30 @@
 {% block content %}
 
 <table class="table table-striped"><tbody>
-{#  {% get_fields_without_id_and_relations entry as attributes %}#}
+    <tr>
+      <td class="col-md-3">
+        bibtex key
+      </td>
+      <td class="col-md-9">
+        {{ entry.get_bibtex_key }}
+      </td>
+    </tr>
   {% for attr, value in entry.get_attributes_without_id_and_relations %}
     <tr>
       <td class="col-md-3">
         {{ attr }}
       </td>
       <td class="col-md-9">
-        {{ value }}
+        {% if attr == "url" %}{{ value|urlize }}{% else %}{{ value }}{% endif %}
       </td>
     </tr>
   {% endfor %}
 </tbody></table>
 
 <div class="center-block">
+  <a href="{% url 'bib_delete' entry.bibliography.id %}" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span>Delete</a>
   <a href="{% url 'bib_detail' entry.bibliography.id %}" class="btn btn-default">Back to bib: {{ entry.bibliography.document_name|truncatechars:15 }}</a>
   <a href="{% url 'entry_list' entry.bibliography.id %}" class="btn btn-default">Back to all entries</a>
-  <a href="{% url 'bib_delete' entry.bibliography.id %}" class="btn btn-danger">Delete</a>
   <a href="{% url 'entry_edit' entry.id %}" class="btn btn-primary">Edit the Entry</a>
 </div>
 
